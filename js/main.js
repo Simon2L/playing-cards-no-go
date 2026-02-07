@@ -36,11 +36,15 @@ function cardBackClicked({ target }) {
     const nextEl = document.getElementById(nextCard.id);
 
     if (!nextEl) {
+        const finalScore = game.calculateScore(); 
+    
         alert("game over :(");
-        scoreDisplay.textContent = game.calculateScore();
-        formulaEl.textContent = game.scoreFormula + " = " + game.score;
+    
+        scoreDisplay.textContent = finalScore;
+        formulaEl.textContent = `${game.scoreFormula} = ${finalScore}`;
+    
         resetBtn.removeAttribute("disabled");
-        saveGlobalScore(game.score);
+        saveGlobalScore(finalScore, game.scoreFormula);
         return;
     }
 
