@@ -9,16 +9,19 @@ class ScoreHandler(http.server.SimpleHTTPRequestHandler):
     def do_POST(self):
         if self.path == '/save-score':
             content_length = int(self.headers['Content-Length'])
-            new_score = json.loads(self.rfile.read(content_length))
+            post_data = self.rfile.read(content_length)
+            new_score = json.loads(post_data)
 
             scores = []
             if os.path.exists(SCORE_FILE):
-                with open(SCORE_FILE, 'r') as f:
-                    scores = json.load(f)
+                try:
+                    with open(SCORE_FILE, 'r') as f:
+                        scores = json.load(f)
+                except: scores = []
 
             scores.append(new_score)
             scores.sort(key=lambda x: x['score'], reverse=True)
-            scores = scores[:10]  # Keep Top 10
+            scores = scores[:10]
 
             with open(SCORE_FILE, 'w') as f:
                 json.dump(scores, f)
@@ -28,7 +31,6 @@ class ScoreHandler(http.server.SimpleHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(json.dumps(scores).encode())
         else:
-            super().do_POST()
+            self.send_error(404, "File not found")
 
-print(f"Serving at http://localhost:{PORT}")
-http.server.HTTPServer(('', PORT), ScoreHandler).serve_forever()
+http.server.HTTPServer(('0.0.0.0', PORT), ScoreHandler).serve_forever()
