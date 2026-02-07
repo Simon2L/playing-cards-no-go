@@ -1,0 +1,116 @@
+ :root {
+    --bg-color: #1a1a1a;
+    --accent-color: #ffffff;
+    --muted-color: #888888;
+    --glass-bg: rgba(255, 255, 255, 0.05);
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--accent-color);
+    font-family: 'Inter', system-ui, sans-serif;
+    padding: 4px 84px;
+}
+
+.glow {
+    cursor: pointer;
+    box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.4), 
+                0 0 5px 2px rgba(255, 255, 255, 0.2);
+    
+    transform: translateY(-4px) scale(1.02);
+    
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    
+    z-index: 10;
+    
+    border: 1px solid rgba(255, 255, 255, 0.8) !important;
+}
+    .card:hover {
+        animation: forwards ease-in card-hover 100ms;
+    }
+
+    @keyframes card-hover {
+        100% {
+            transform: scale(1.1);
+        }
+    }
+
+    .card-wrapper {
+        width: 120px;
+        aspect-ratio: 223 / 311;
+    }
+
+    .card {
+        width: 100%;
+        height: 100%;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.25), inset 0 0 0 2px rgba(255,255,255,0.3);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .card.back {
+        background: linear-gradient(135deg, #0a3d62, #1e90ff);
+    }
+
+    .card.back::before {
+        content: "";
+        position: absolute;
+        inset: 8px;
+        border-radius: 8px;
+        border: 1px solid rgba(255,255,255,0.85);
+    }
+
+    .card.back::after {
+        content: "";
+        position: absolute;
+        inset: 16px;
+        background:
+            repeating-linear-gradient(
+            45deg,
+            rgba(255,255,255,0.15),
+            rgba(255,255,255,0.15) 6px,
+            transparent 6px,
+            transparent 12px
+        );
+        border-radius: 6px;
+    }
+
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+
+.stats-bar {
+    display: flex;
+    gap: 24px;
+    padding: 12px 24px;
+    background: var(--glass-bg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    width: fit-content;
+    backdrop-filter: blur(10px);
+    margin-bottom: 24px;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.stat-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05rem;
+    color: var(--muted-color);
+    font-weight: 600;
+}
+
+.stat-value {
+    font-size: 1.2rem;
+    font-weight: 300;
+    font-variant-numeric: tabular-nums;
+}
