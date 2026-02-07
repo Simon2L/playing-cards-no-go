@@ -51,7 +51,7 @@ body {
     background: linear-gradient(135deg, #0a3d62, #1e90ff);
 }
 
- .card.back::before {
+.card.back::before {
     content: "";
     position: absolute;
     inset: 8px;
