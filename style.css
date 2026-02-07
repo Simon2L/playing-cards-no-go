@@ -1,8 +1,9 @@
- :root {
+:root {
     --bg-color: #1a1a1a;
     --accent-color: #ffffff;
     --muted-color: #888888;
     --glass-bg: rgba(255, 255, 255, 0.05);
+    --action-color: #8400ff;
 }
 
 body {
@@ -16,74 +17,71 @@ body {
     cursor: pointer;
     box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.4), 
                 0 0 5px 2px rgba(255, 255, 255, 0.2);
-    
     transform: translateY(-4px) scale(1.02);
-    
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    
     z-index: 10;
-    
     border: 1px solid rgba(255, 255, 255, 0.8) !important;
 }
-    .card:hover {
-        animation: forwards ease-in card-hover 100ms;
-    }
 
-    @keyframes card-hover {
-        100% {
-            transform: scale(1.1);
-        }
-    }
+.card:hover {
+    animation: forwards ease-in card-hover 100ms;
+}
 
-    .card-wrapper {
-        width: 120px;
-        aspect-ratio: 223 / 311;
+@keyframes card-hover {
+    100% {
+        transform: scale(1.1);
     }
+}
 
-    .card {
-        width: 100%;
-        height: 100%;
-        border-radius: 12px;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.25), inset 0 0 0 2px rgba(255,255,255,0.3);
-        position: relative;
-        overflow: hidden;
-    }
+.card-wrapper {
+    width: 120px;
+    aspect-ratio: 223 / 311;
+}
 
-    .card.back {
-        background: linear-gradient(135deg, #0a3d62, #1e90ff);
-    }
+.card {
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25), inset 0 0 0 2px rgba(255,255,255,0.3);
+    position: relative;
+    overflow: hidden;
+}
 
-    .card.back::before {
-        content: "";
-        position: absolute;
-        inset: 8px;
-        border-radius: 8px;
-        border: 1px solid rgba(255,255,255,0.85);
-    }
+.card.back {
+    background: linear-gradient(135deg, #0a3d62, #1e90ff);
+}
 
-    .card.back::after {
-        content: "";
-        position: absolute;
-        inset: 16px;
-        background:
-            repeating-linear-gradient(
+ .card.back::before {
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.85);
+}
+
+.card.back::after {
+    content: "";
+    position: absolute;
+    inset: 16px;
+    background:
+        repeating-linear-gradient(
             45deg,
             rgba(255,255,255,0.15),
             rgba(255,255,255,0.15) 6px,
             transparent 6px,
             transparent 12px
         );
-        border-radius: 6px;
-    }
+    border-radius: 6px;
+}
 
-    .container {
+.container {
         display: flex;
         flex-wrap: wrap;
         gap: 12px;
-    }
-
+}
 
 .stats-bar {
+    align-items: center;
     display: flex;
     gap: 24px;
     padding: 12px 24px;
@@ -110,7 +108,53 @@ body {
 }
 
 .stat-value {
-    font-size: 1.2rem;
-    font-weight: 300;
+    font-size: 1.5rem;
+    font-weight: 400;
     font-variant-numeric: tabular-nums;
+}
+
+#formula {
+    display: block;
+    color: var(--muted-color);
+    font-size: 0.6rem;
+    
+    min-height: 1em; 
+    margin-top: 4px;
+    
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 250px; 
+}
+
+.btn {
+    background: var(--action-color);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--accent-color);
+    padding: 6px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
+}
+
+.btn:hover {
+    opacity: 75%;
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.btn:active {
+    transform: scale(0.95);
+}
+
+.btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+    border-color: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.02);
+    color: var(--muted-color);
+    box-shadow: none;
+    transform: none;
 }

@@ -10,8 +10,16 @@
 <body>
     <div class="stats-bar">
         <div class="stat-item">
+            <button id="reset" class="btn" disabled>Reset</button>
+        </div>
+        <div class="stat-item">
             <span class="stat-label">Score</span>
             <span id="score" class="stat-value">0</span>
+            <small id="formula" style="display:block; color:var(--muted-color); font-size:0.6rem;"></small>
+        </div>
+        <div id="leaderboard" class="stats-bar" style="display:none; flex-direction:column; margin-top: 20px;">
+            <span class="stat-label">Global Top 10</span>
+            <div id="leaderboard-list"></div>
         </div>
     </div>
 

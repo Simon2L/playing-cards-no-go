@@ -1,7 +1,11 @@
 import { PatienceGame } from './Game.js';
 
 const table = document.getElementById("table");
-const scoreDisplay = document.querySelector("#score");
+const scoreDisplay = document.getElementById("score");
+const formulaEl = document.getElementById("formula");
+const resetBtn = document.getElementById("reset");
+resetBtn.addEventListener("click", resetGame);
+
 const game = new PatienceGame();
 
 function createImageCardElement(card) {
@@ -20,39 +24,87 @@ function cardBackClicked({ target }) {
     const img = createImageCardElement(currentCard);
     const wrapper = target.parentElement;
     
+    currentCard.hidden = false;
     wrapper.classList.remove("glow");
     target.remove();
     wrapper.appendChild(img);
 
-    game.score++;
+    game.refreshScore();
     scoreDisplay.textContent = game.score;
 
-    const nextCard = game.updatePointer(value);
+    const nextCard = game.peekNextPointer(value); 
     const nextEl = document.getElementById(nextCard.id);
-    
+
     if (!nextEl) {
-        // game over
-        alert("Game Over!");
+        alert("game over :(");
+        scoreDisplay.textContent = game.calculateScore();
+        formulaEl.textContent = game.scoreFormula + " = " + game.score;
+        resetBtn.removeAttribute("disabled");
+        saveGlobalScore(game.score);
         return;
     }
+
+    game.updatePointer(value); 
 
     nextEl.onclick = cardBackClicked;
     nextEl.parentElement.classList.add("glow");
 }
 
-game.deck.forEach((card, i) => {
-    const wrapper = document.createElement("div");
-    wrapper.classList.add("card-wrapper");
+function resetGame() {
+    resetBtn.setAttribute("disabled", "")
+    table.replaceChildren();
+    scoreDisplay.textContent = "0";
+    game.reset();
+    formulaEl.textContent = "";
+    renderCards();
+}
 
-    const cardBack = document.createElement("div");
-    cardBack.classList.add("card", "back");
-    cardBack.id = card.id;
+function renderCards() {
+    game.deck.forEach((card, i) => {
+        const wrapper = document.createElement("div");
+        wrapper.classList.add("card-wrapper");
+    
+        const cardBack = document.createElement("div");
+        cardBack.classList.add("card", "back");
+        cardBack.id = card.id;
+    
+        if (i === game.pointer) {
+            cardBack.onclick = cardBackClicked;
+            wrapper.classList.add("glow");
+        }
+    
+        wrapper.appendChild(cardBack);
+        table.appendChild(wrapper);
+    });
+}
 
-    if (i === game.pointer) {
-        cardBack.onclick = cardBackClicked;
-        wrapper.classList.add("glow");
-    }
+async function saveGlobalScore(finalScore, formula) {
+    const response = await fetch('/save-score', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            score: finalScore,
+            formula: formula,
+            date: new Date().toLocaleDateString()
+        })
+    });
+    
+    const topScores = await response.json();
+    displayLeaderboard(topScores);
+}
 
-    wrapper.appendChild(cardBack);
-    table.appendChild(wrapper);
-});
+function displayLeaderboard(scores) {
+    const list = document.getElementById('leaderboard-list');
+    const container = document.getElementById('leaderboard');
+    
+    list.innerHTML = scores.map((s, i) => `
+        <div class="stat-item" style="flex-direction: row; justify-content: space-between; gap: 20px; font-size: 0.8rem;">
+            <span>#${i+1} <strong>${s.score}</strong></span>
+            <span style="color: var(--muted-color)">${s.formula}</span>
+        </div>
+    `).join('');
+    
+    container.style.display = 'flex';
+}
+
+renderCards();
