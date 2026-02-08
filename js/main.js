@@ -93,30 +93,36 @@ async function saveGlobalScore(finalScore, formula) {
         })
     });
     
-    const topScores = await response.json();
-    displayLeaderboard(topScores);
+    const data = await response.json();
+    
+    displayTopLeaderboard(data.top_10);
+    displayBottomLeaderboard(data.bot_10);
 }
 
 async function getGlobalScores() {
     try {
         const response = await fetch('/get-score');
-        
+
         if (!response.ok) {
             console.warn("Leaderboard not found (404)");
             return;
         }
 
-        const topScores = await response.json();
-        displayLeaderboard(topScores);
+        const data = await response.json();
+
+        displayTopLeaderboard(data.top_10);
+        displayBottomLeaderboard(data.bot_10);
+
     } catch (err) {
         console.error("Failed to load scores:", err);
     }
 }
 
-function displayLeaderboard(scores) {
+
+function displayTopLeaderboard(scores) {
     const tbody = document.getElementById('leaderboard-body');
     const container = document.getElementById('leaderboard');
-    
+
     tbody.innerHTML = scores.map((s, i) => `
         <tr>
             <td>#${i + 1}</td>
@@ -124,9 +130,27 @@ function displayLeaderboard(scores) {
             <td class="row-formula">${s.formula}</td>
         </tr>
     `).join('');
-    
+
     container.style.display = 'flex';
 }
+
+function displayBottomLeaderboard(scores) {
+    const tbody = document.getElementById('leaderboard-bottom-body');
+    const container = document.getElementById('leaderboard-bottom');
+
+    tbody.innerHTML = scores
+        .sort((a, b) => a.score - b.score)
+        .map((s, i) => `
+            <tr>
+                <td>#${i + 1}</td>
+                <td class="row-score">${s.score}</td>
+                <td class="row-formula">${s.formula}</td>
+            </tr>
+        `).join('');
+
+    container.style.display = 'flex';
+}
+
 
 renderCards();
 getGlobalScores();

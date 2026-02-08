@@ -21,7 +21,8 @@ class ScoreHandler(http.server.SimpleHTTPRequestHandler):
 
             scores.append(new_score)
             scores.sort(key=lambda x: x['score'], reverse=True)
-            scores = scores[:10]
+            top_10 = scores[:10]
+            bot_10 = scores[-10:]
 
             with open(SCORE_FILE, 'w') as f:
                 json.dump(scores, f)
@@ -29,7 +30,10 @@ class ScoreHandler(http.server.SimpleHTTPRequestHandler):
             self.send_response(200)
             self.send_header('Content-type', 'application/json')
             self.end_headers()
-            self.wfile.write(json.dumps(scores).encode())
+            self.wfile.write(json.dumps({
+                "top_10": top_10,
+                "bot_10": bot_10
+            }).encode())
         else:
             self.send_error(404, "File not found")
     
@@ -44,14 +48,21 @@ class ScoreHandler(http.server.SimpleHTTPRequestHandler):
                     scores = []
 
             scores.sort(key=lambda x: x.get('score', 0), reverse=True)
+
             top_10 = scores[:10]
+            bot_10 = scores[-10:]
 
             self.send_response(200)
             self.send_header('Content-Type', 'application/json')
             self.end_headers()
-            self.wfile.write(json.dumps(top_10).encode())
+
+            self.wfile.write(json.dumps({
+                "top_10": top_10,
+                "bot_10": bot_10
+            }).encode())
         else:
             super().do_GET()
+
 
 
 http.server.HTTPServer(('0.0.0.0', PORT), ScoreHandler).serve_forever()
