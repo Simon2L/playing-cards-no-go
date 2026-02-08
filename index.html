@@ -21,9 +21,18 @@
 
     <div id="table" class="container"></div>
 
-    <div id="leaderboard" class="stats-bar" style="display:none; flex-direction:column; margin-top: 20px;">
-        <span class="stat-label">Global Top 10</span>
-        <div id="leaderboard-list"></div>
+    <div id="leaderboard" class="stats-bar" style="display: none; flex-direction:column; margin-top: 20px;">
+        <span class="stat-label" style="margin-bottom: 10px;">Global Top 10</span>
+        <table id="leaderboard-table">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Score</th>
+                    <th>Formula</th>
+                </tr>
+            </thead>
+            <tbody id="leaderboard-body"></tbody>
+        </table>
     </div>
 </body>
 </html>

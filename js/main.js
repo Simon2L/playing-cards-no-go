@@ -97,18 +97,29 @@ async function saveGlobalScore(finalScore, formula) {
     displayLeaderboard(topScores);
 }
 
+async function getGlobalScores() {
+    const response = await fetch('/get-score', {
+        method: 'GET',
+    })
+
+    const topScores = await response.json();
+    displayLeaderboard(topScores);
+}
+
 function displayLeaderboard(scores) {
-    const list = document.getElementById('leaderboard-list');
+    const tbody = document.getElementById('leaderboard-body');
     const container = document.getElementById('leaderboard');
     
-    list.innerHTML = scores.map((s, i) => `
-        <div class="stat-item" style="flex-direction: row; justify-content: space-between; gap: 20px; font-size: 0.8rem;">
-            <span>#${i+1} <strong>${s.score}</strong></span>
-            <span style="color: var(--muted-color)">${s.formula}</span>
-        </div>
+    tbody.innerHTML = scores.map((s, i) => `
+        <tr>
+            <td>#${i + 1}</td>
+            <td class="row-score">${s.score}</td>
+            <td class="row-formula">${s.formula}</td>
+        </tr>
     `).join('');
     
     container.style.display = 'flex';
 }
 
 renderCards();
+getGlobalScores();
