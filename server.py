@@ -36,7 +36,6 @@ class ScoreHandler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
         if self.path == '/get-score':
             scores = []
-
             if os.path.exists(SCORE_FILE):
                 try:
                     with open(SCORE_FILE, 'r') as f:
@@ -45,14 +44,14 @@ class ScoreHandler(http.server.SimpleHTTPRequestHandler):
                     scores = []
 
             scores.sort(key=lambda x: x['score'], reverse=True)
-            scores = scores[:10]
+            top_10 = scores[:10]
 
             self.send_response(200)
             self.send_header('Content-Type', 'application/json')
             self.end_headers()
-            self.wfile.write(json.dumps(scores).encode())
+            self.wfile.write(json.dumps(top_10).encode())
         else:
-            self.send_error(404, "Not found")
+            super().do_GET()
 
 
 http.server.HTTPServer(('0.0.0.0', PORT), ScoreHandler).serve_forever()
