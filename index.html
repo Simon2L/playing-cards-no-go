@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patiens</title>
-    <script type="module" src="js/main.js?v=1.0.2"></script>
-    <link rel="stylesheet" href="style.css?v=1.0.2">
+    <script type="module" src="js/main.js?v=1.0.3"></script>
+    <link rel="stylesheet" href="style.css?v=1.0.3">
 </head>
 <body>
-    <div class="stats-bar">
+    <div style="display: none;" class="stats-bar">
         <div class="stat-item">
             <button id="reset" class="btn" disabled>Reset</button>
         </div>
@@ -21,32 +21,53 @@
 
     <div id="table" class="container"></div>
 
-    <div id="leaderboard" class="stats-bar" style="display: none; flex-direction:column; margin-top: 20px;">
-        <span class="stat-label" style="margin-bottom: 10px;">Global Top 10</span>
-        <table id="leaderboard-table">
-            <thead>
-                <tr>
-                    <th>Rank</th>
-                    <th>Score</th>
-                    <th>Formula</th>
-                </tr>
-            </thead>
-            <tbody id="leaderboard-body"></tbody>
-        </table>
+    <div class="container">
+        <div id="leaderboard" class="stats-bar" style="display: none; flex-direction:column; margin-top: 20px;">
+            <span class="stat-label" style="margin-bottom: 10px;">Global Top 10</span>
+            <table id="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Score</th>
+                        <th>Formula</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboard-body"></tbody>
+            </table>
+        </div>
+        
+        <div id="leaderboard-bottom" class="stats-bar" style="display: none; flex-direction:column; margin-top: 20px;">
+            <span class="stat-label" style="margin-bottom: 10px;">Global Bottom 10</span>
+            <table id="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Score</th>
+                        <th>Formula</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboard-bottom-body"></tbody>
+            </table>
+        </div>
     </div>
 
-    <div id="leaderboard-bottom" class="stats-bar" style="display: none; flex-direction:column; margin-top: 20px;">
-        <span class="stat-label" style="margin-bottom: 10px;">Global Bottom 10</span>
-        <table id="leaderboard-table">
-            <thead>
-                <tr>
-                    <th>Rank</th>
-                    <th>Score</th>
-                    <th>Formula</th>
-                </tr>
-            </thead>
-            <tbody id="leaderboard-bottom-body"></tbody>
-        </table>
+    <div id="game-over-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h2 class="stat-label" style="font-size: 1.5rem; color: #fff;">Game Over</h2>
+        
+            <div class="modal-stats">
+                <div class="stat-item">
+                    <span class="stat-label">Final Score</span>
+                    <span id="modal-score" class="stat-value">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Formula</span>
+                    <span id="modal-formula" class="row-formula">0 + 0</span>
+                </div>
+            </div>
+    
+            <button id="modal-reset-btn" class="primary-btn">Play Again</button>
+        </div>
     </div>
 </body>
 </html>

@@ -37,19 +37,26 @@ function cardBackClicked({ target }) {
 
     if (!nextEl) {
         const finalScore = game.calculateScore(); 
-    
-        alert("game over :(");
-    
+        
+        const modal = document.getElementById("game-over-modal");
+        document.getElementById("modal-score").textContent = finalScore;
+        document.getElementById("modal-formula").textContent = `${game.scoreFormula} = ${finalScore}`;
+        
+        modal.style.display = "flex";
+        
+        document.getElementById("modal-reset-btn").onclick = () => {
+            resetGame();
+            modal.style.display = "none";
+        };
+
         scoreDisplay.textContent = finalScore;
-        formulaEl.textContent = `${game.scoreFormula} = ${finalScore}`;
+        // formulaEl.textContent = `${game.scoreFormula} = ${finalScore}`;
     
-        resetBtn.removeAttribute("disabled");
         saveGlobalScore(finalScore, game.scoreFormula);
         return;
     }
 
     game.updatePointer(value); 
-
     nextEl.onclick = cardBackClicked;
     nextEl.parentElement.classList.add("glow");
 }
