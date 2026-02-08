@@ -98,12 +98,19 @@ async function saveGlobalScore(finalScore, formula) {
 }
 
 async function getGlobalScores() {
-    const response = await fetch('/get-score', {
-        method: 'GET',
-    })
+    try {
+        const response = await fetch('/get-score');
+        
+        if (!response.ok) {
+            console.warn("Leaderboard not found (404)");
+            return;
+        }
 
-    const topScores = await response.json();
-    displayLeaderboard(topScores);
+        const topScores = await response.json();
+        displayLeaderboard(topScores);
+    } catch (err) {
+        console.error("Failed to load scores:", err);
+    }
 }
 
 function displayLeaderboard(scores) {

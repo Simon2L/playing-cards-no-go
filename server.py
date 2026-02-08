@@ -40,10 +40,10 @@ class ScoreHandler(http.server.SimpleHTTPRequestHandler):
                 try:
                     with open(SCORE_FILE, 'r') as f:
                         scores = json.load(f)
-                except (json.JSONDecodeError, IOError):
+                except:
                     scores = []
 
-            scores.sort(key=lambda x: x['score'], reverse=True)
+            scores.sort(key=lambda x: x.get('score', 0), reverse=True)
             top_10 = scores[:10]
 
             self.send_response(200)
