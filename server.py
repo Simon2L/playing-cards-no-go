@@ -34,7 +34,7 @@ class ScoreHandler(http.server.SimpleHTTPRequestHandler):
             self.send_error(404, "File not found")
     
     def do_GET(self):
-        if self.path == '/save-score':
+        if self.path == '/get-score':
             scores = []
 
             if os.path.exists(SCORE_FILE):
