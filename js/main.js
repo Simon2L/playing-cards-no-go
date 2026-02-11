@@ -1,12 +1,19 @@
 import { PatienceGame } from './Game.js';
 
 const table = document.getElementById("table");
-const scoreDisplay = document.getElementById("score");
-const formulaEl = document.getElementById("formula");
-const resetBtn = document.getElementById("reset");
-resetBtn.addEventListener("click", resetGame);
+const strategyButtons = document.querySelectorAll('.strat-btn');
 
 const game = new PatienceGame();
+
+strategyButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        strategyButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const selectedMode = btn.getAttribute('data-strategy');
+        game.strategy = selectedMode;
+    });
+});
 
 function createImageCardElement(card) {
     const img = document.createElement("img");
@@ -29,9 +36,6 @@ function cardBackClicked({ target }) {
     target.remove();
     wrapper.appendChild(img);
 
-    game.refreshScore();
-    scoreDisplay.textContent = game.score;
-
     const nextCard = game.peekNextPointer(value); 
     const nextEl = document.getElementById(nextCard.id);
 
@@ -40,19 +44,14 @@ function cardBackClicked({ target }) {
         
         const modal = document.getElementById("game-over-modal");
         document.getElementById("modal-score").textContent = finalScore;
-        document.getElementById("modal-formula").textContent = `${game.scoreFormula} = ${finalScore}`;
         
         modal.style.display = "flex";
         
         document.getElementById("modal-reset-btn").onclick = () => {
             resetGame();
             modal.style.display = "none";
+            saveGlobalScore(finalScore, game.strategy);
         };
-
-        scoreDisplay.textContent = finalScore;
-        // formulaEl.textContent = `${game.scoreFormula} = ${finalScore}`;
-    
-        saveGlobalScore(finalScore, game.scoreFormula);
         return;
     }
 
@@ -62,11 +61,8 @@ function cardBackClicked({ target }) {
 }
 
 function resetGame() {
-    resetBtn.setAttribute("disabled", "")
     table.replaceChildren();
-    scoreDisplay.textContent = "0";
     game.reset();
-    formulaEl.textContent = "";
     renderCards();
 }
 
@@ -89,11 +85,13 @@ function renderCards() {
     });
 }
 
-async function saveGlobalScore(finalScore, formula) {
+async function saveGlobalScore(finalScore, formula, strategy) {
     const response = await fetch('/save-score', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+            name: document.getElementById("player-name").value,
+            strategy: strategy,
             score: finalScore,
             formula: formula,
             date: new Date().toLocaleDateString()
@@ -102,8 +100,7 @@ async function saveGlobalScore(finalScore, formula) {
     
     const data = await response.json();
     
-    displayTopLeaderboard(data.top_10);
-    displayBottomLeaderboard(data.bot_10);
+    displayTopLeaderboard(data);
 }
 
 async function getGlobalScores() {
@@ -117,47 +114,45 @@ async function getGlobalScores() {
 
         const data = await response.json();
 
-        displayTopLeaderboard(data.top_10);
-        displayBottomLeaderboard(data.bot_10);
+        displayTopLeaderboard(data);
 
     } catch (err) {
         console.error("Failed to load scores:", err);
     }
 }
 
+function displayTopLeaderboard(data) {
+    const strategies = ['max', 'jorgen', 'imon'];
 
-function displayTopLeaderboard(scores) {
-    const tbody = document.getElementById('leaderboard-body');
-    const container = document.getElementById('leaderboard');
+    strategies.forEach(strat => {
+        const container = document.getElementById(`leaderboard-${strat}`);
+        const topTbody = document.getElementById(`leaderboard-body-${strat}`);
+        const botTbody = document.getElementById(`leaderboard-bottom-body-${strat}`);
 
-    tbody.innerHTML = scores.map((s, i) => `
-        <tr>
-            <td>#${i + 1}</td>
-            <td class="row-score">${s.score}</td>
-            <td class="row-formula">${s.formula}</td>
-        </tr>
-    `).join('');
+        if (!data[strat] || !container) return;
 
-    container.style.display = 'flex';
-}
-
-function displayBottomLeaderboard(scores) {
-    const tbody = document.getElementById('leaderboard-bottom-body');
-    const container = document.getElementById('leaderboard-bottom');
-
-    tbody.innerHTML = scores
-        .sort((a, b) => a.score - b.score)
-        .map((s, i) => `
+        topTbody.innerHTML = data[strat].top_10.map((s, i) => `
             <tr>
                 <td>#${i + 1}</td>
                 <td class="row-score">${s.score}</td>
-                <td class="row-formula">${s.formula}</td>
+                <td class="row-name">${s.name || 'Anonymous'}</td>
             </tr>
         `).join('');
 
-    container.style.display = 'flex';
-}
+        // Fill Bottom 10 (Hall of Shame)
+        if (botTbody) {
+            botTbody.innerHTML = data[strat].bot_10.map((s, i) => `
+                <tr>
+                    <td style="color: var(--muted-color)">#${i + 1}</td>
+                    <td class="row-score">${s.score}</td>
+                    <td class="row-name">${s.name || 'Anonymous'}</td>
+                </tr>
+            `).join('');
+        }
 
+        container.style.display = 'flex';
+    });
+}
 
 renderCards();
 getGlobalScores();

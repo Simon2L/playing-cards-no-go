@@ -1,14 +1,21 @@
 import { Card, Suite, cardValues } from './Card.js';
 
+export class ScoreStrategy {
+    static IMON = "imon";
+    static MAX = "max";
+    static JORGEN = "jorgen";
+}
+
 export class PatienceGame {
     constructor() {
         this.deck = [];
         this.pointer = 0;
         this.score = 0;
-        this.init();
+        this.strategy = ScoreStrategy.MAX;
+        this.#init();
     }
 
-    init() {
+    #init() {
         const suites = [Suite.SPADES, Suite.HEARTS, Suite.DIAMONDS, Suite.CLUBS];
         for (const suite of suites) {
             for (const value of cardValues) {
@@ -23,10 +30,6 @@ export class PatienceGame {
             const j = Math.floor(Math.random() * (i + 1));
             [this.deck[i], this.deck[j]] = [this.deck[j], this.deck[i]];
         }
-    }
-
-    refreshScore() {
-        this.score = this.calculateScore();
     }
 
     peekNextPointer(step) {
@@ -49,55 +52,98 @@ export class PatienceGame {
     }
 
     calculateScore() {
-        let totalScore = 0;
-        let formulaParts = [];
+        switch (this.strategy) {
+            case ScoreStrategy.IMON:
+                return this.#calculateScoreImon();
+            case ScoreStrategy.JORGEN:
+                return this.#calculateScoreJorgen();
+            case ScoreStrategy.MAX:
+                return this.#calculateScoreMax();
+            default:
+                return this.#calculateScoreMax();
+        }
+    }
+    
+    #calculateScoreImon() {
         const len = this.deck.length;
-        let cardsInARow = [];
+        let totalScore = 0;
 
-        for (let i = 0; i < len; i++) {
-            const currentIndex = (this.pointer + i) % len;
-            const card = this.deck[currentIndex];
+        const rotatedDeck = Array.from({ length: len }, (_, i) => this.deck[(this.pointer + i) % len]);
 
-            if (card.hidden) {
-                if (cardsInARow.length > 0) {
-                    const result = this.processStreak(totalScore, cardsInARow.length);
-                    totalScore = result.score;
-                    formulaParts.push(result.symbol);
-                    cardsInARow = [];
-                }
-                continue;
-            }
-            cardsInARow.push(card);
-        }
+        const streaks = rotatedDeck
+            .map(card => (card.hidden ? 'H' : 'V'))
+            .join('')
+            .split('H')
+            .map(v => v.length)
+            .filter(length => length > 0);
 
-        if (cardsInARow.length > 0) {
-            const result = this.processStreak(totalScore, cardsInARow.length);
-            totalScore = result.score;
-            formulaParts.push(result.symbol);
-        }
+        streaks.forEach(streakLength => {
+            const score = this.#processStreak(totalScore, streakLength);
+            totalScore = score;
+        });
 
-        this.scoreFormula = formulaParts.join(" "); 
         return totalScore;
     }
 
-    processStreak(currentScore, streakLength) {
+    #calculateScoreJorgen() {
+        const len = this.deck.length;
+        let totalScore = 0;
+
+        const jumpOffset = this.deck[this.pointer].value + 1;
+        const startPosition = (this.pointer + jumpOffset) % len;
+
+        const rotatedDeck = Array.from({ length: len }, (_, i) => 
+            this.deck[(startPosition + i) % len]
+        );
+
+        const streaks = rotatedDeck
+            .map(card => (card.hidden ? 'H' : 'V'))
+            .join('')
+            .split('H')
+            .map(s => s.length)
+            .filter(len => len > 0);
+
+        streaks.forEach(streakLength => {
+            const score = this.#processStreak(totalScore, streakLength);
+            totalScore = score;
+        });
+
+        return totalScore;
+    }
+
+    #calculateScoreMax() {
+        const streaks = this.deck
+            .map(card => (card.hidden ? 'H' : 'V'))
+            .join('')
+            .split('H')
+            .map(s => s.length)
+            .filter(len => len > 0);
+
+        if (!this.deck[0].hidden && !this.deck[this.deck.length - 1].hidden && streaks.length > 1) {
+            const lastStreak = streaks.pop();
+            streaks[0] += lastStreak;
+        }
+
+        return streaks
+            .sort((a, b) => a - b) 
+            .reduce((total, val) => {
+                if (val === 1) {
+                    return total + 1;
+                } else {
+                    return total === 0 ? val : total * val;
+                }
+            }, 0);
+    }
+
+    #processStreak(currentScore, streakLength) {
         if (streakLength === 1) {
-            return { 
-                score: currentScore + 1, 
-                symbol: currentScore === 0 ? "1" : "+ 1" 
-            };
+            return currentScore + 1;
         }
     
         if (currentScore === 0) {
-            return { 
-                score: streakLength, 
-                symbol: `${streakLength}` 
-            };
+            return streakLength;
         } 
     
-        return { 
-            score: currentScore * streakLength, 
-            symbol: `* ${streakLength}` 
-        };
+        return currentScore * streakLength;
     }
 }

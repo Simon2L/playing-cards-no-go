@@ -4,49 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patiens</title>
-    <script type="module" src="js/main.js?v=1.0.3"></script>
-    <link rel="stylesheet" href="style.css?v=1.0.3">
+    <script type="module" src="js/main.js?v=1.0.4"></script>
+    <link rel="stylesheet" href="style.css?v=1.0.4">
 </head>
 <body>
-    <div style="display: none;" class="stats-bar">
-        <div class="stat-item">
-            <button id="reset" class="btn" disabled>Reset</button>
-        </div>
-        <div class="stat-item">
-            <span class="stat-label">Score</span>
-            <span id="score" class="stat-value">0</span>
-            <small id="formula" style="display:block; color:var(--muted-color); font-size:0.6rem;"></small>
+    <div class="stats-bar">
+        <div class="stat-item" style="flex-direction: row; gap: 8px; align-items: center;">
+            <span class="stat-label" style="margin-right: 8px;">Mode:</span>
+            <div class="strategy-picker">
+                <button class="strat-btn active" data-strategy="max">MAX</button>
+                <button class="strat-btn" data-strategy="imon">IMON</button>
+                <button class="strat-btn" data-strategy="jorgen">JORGEN</button>
+            </div>
         </div>
     </div>
 
     <div id="table" class="container"></div>
 
     <div class="container">
-        <div id="leaderboard" class="stats-bar" style="display: none; flex-direction:column; margin-top: 20px;">
-            <span class="stat-label" style="margin-bottom: 10px;">Global Top 10</span>
-            <table id="leaderboard-table">
+        <div id="leaderboard-max" class="stats-bar" style="display: none; flex-direction:column; margin-top: 20px;">
+            <span class="stat-label" style="margin-bottom: 10px;">Global Top 10 - Max</span>
+            <table id="leaderboard-table-max">
                 <thead>
-                    <tr>
-                        <th>Rank</th>
-                        <th>Score</th>
-                        <th>Formula</th>
-                    </tr>
+                    <tr><th>Rank</th><th>Score</th><th>Name</th></tr>
                 </thead>
-                <tbody id="leaderboard-body"></tbody>
+                <tbody id="leaderboard-body-max"></tbody>
+            </table>
+    
+            <span class="stat-label" style="margin-top: 20px; margin-bottom: 10px; color: #ff4444;">Bottom 10 - Max</span>
+            <table id="leaderboard-bottom-table-max">
+                <tbody id="leaderboard-bottom-body-max"></tbody>
+            </table>
+        </div>
+
+        <div id="leaderboard-jorgen" class="stats-bar" style="display: none; flex-direction:column; margin-top: 20px;">
+            <span class="stat-label" style="margin-bottom: 10px;">Global Top 10 - Jorgen</span>
+            <table id="leaderboard-table-jorgen">
+                <thead>
+                    <tr><th>Rank</th><th>Score</th><th>Name</th></tr>
+                </thead>
+                <tbody id="leaderboard-body-jorgen"></tbody>
+            </table>
+    
+            <span class="stat-label" style="margin-top: 20px; margin-bottom: 10px; color: #ff4444;">Bottom 10 - Jorgen</span>
+            <table id="leaderboard-bottom-table-jorgen">
+                <tbody id="leaderboard-bottom-body-jorgen"></tbody>
             </table>
         </div>
         
-        <div id="leaderboard-bottom" class="stats-bar" style="display: none; flex-direction:column; margin-top: 20px;">
-            <span class="stat-label" style="margin-bottom: 10px;">Global Bottom 10</span>
-            <table id="leaderboard-table">
+        <div id="leaderboard-imon" class="stats-bar" style="display: none; flex-direction:column; margin-top: 20px;">
+            <span class="stat-label" style="margin-bottom: 10px;">Global Top 10 - imon</span>
+            <table id="leaderboard-table-imon">
                 <thead>
-                    <tr>
-                        <th>Rank</th>
-                        <th>Score</th>
-                        <th>Formula</th>
-                    </tr>
+                    <tr><th>Rank</th><th>Score</th><th>Name</th></tr>
                 </thead>
-                <tbody id="leaderboard-bottom-body"></tbody>
+                <tbody id="leaderboard-body-imon"></tbody>
+            </table>
+    
+            <span class="stat-label" style="margin-top: 20px; margin-bottom: 10px; color: #ff4444;">Bottom 10 - imon</span>
+            <table id="leaderboard-bottom-table-imon">
+                <tbody id="leaderboard-bottom-body-imon"></tbody>
             </table>
         </div>
     </div>
@@ -61,8 +78,8 @@
                     <span id="modal-score" class="stat-value">0</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-label">Formula</span>
-                    <span id="modal-formula" class="row-formula">0 + 0</span>
+                    <span class="stat-label">Player Name</span>
+                    <input type="text" id="player-name" class="modal-input" placeholder="Enter Alias..." maxlength="15">
                 </div>
             </div>
     
