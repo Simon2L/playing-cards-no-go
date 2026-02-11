@@ -85,7 +85,7 @@ function renderCards() {
     });
 }
 
-async function saveGlobalScore(finalScore, formula, strategy) {
+async function saveGlobalScore(finalScore, strategy) {
     const response = await fetch('/save-score', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -93,7 +93,6 @@ async function saveGlobalScore(finalScore, formula, strategy) {
             name: document.getElementById("player-name").value,
             strategy: strategy,
             score: finalScore,
-            formula: formula,
             date: new Date().toLocaleDateString()
         })
     });
