@@ -33,25 +33,27 @@ class ScoreHandler(http.server.SimpleHTTPRequestHandler):
     def do_POST(self):
         if self.path == '/save-score':
             content_length = int(self.headers['Content-Length'])
-            new_score = json.loads(self.rfile.read(content_length))
+            post_data = self.rfile.read(content_length)
+            new_score = json.loads(post_data.decode('utf-8'))
             
-            strategy = new_score.get('strategy')
+            strategy = new_score.get('strategy', 'max')
             filename = self.get_file_for_strategy(strategy)
             
             scores = self.load_scores(filename)
             scores.append(new_score)
             
-            with open(filename, 'w') as f:
-                json.dump(scores, f)
+            with open(filename, 'w', encoding='utf-8') as f:
+                json.dump(scores, f, indent=4)
 
-            response_data = self.get_leaderboard_data(scores)
+            all_leaderboards = {}
+            for strat, fname in STRATEGY_FILES.items():
+                s = self.load_scores(fname)
+                all_leaderboards[strat] = self.get_leaderboard_data(s)
             
             self.send_response(200)
             self.send_header('Content-type', 'application/json')
             self.end_headers()
-            self.wfile.write(json.dumps(response_data).encode())
-        else:
-            self.send_error(404)
+            self.wfile.write(json.dumps(all_leaderboards).encode('utf-8'))
     
     def do_GET(self):
         if self.path == '/get-score':

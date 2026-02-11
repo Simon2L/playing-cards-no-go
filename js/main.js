@@ -113,7 +113,6 @@ async function getGlobalScores() {
         }
 
         const data = await response.json();
-
         displayTopLeaderboard(data);
 
     } catch (err) {
@@ -122,30 +121,27 @@ async function getGlobalScores() {
 }
 
 function displayTopLeaderboard(data) {
-    const strategies = ['max', 'jorgen', 'imon'];
-
-    strategies.forEach(strat => {
+    Object.keys(data).forEach(strat => {
+        const topBody = document.getElementById(`leaderboard-body-${strat}`);
+        const botBody = document.getElementById(`leaderboard-bottom-body-${strat}`);
         const container = document.getElementById(`leaderboard-${strat}`);
-        const topTbody = document.getElementById(`leaderboard-body-${strat}`);
-        const botTbody = document.getElementById(`leaderboard-bottom-body-${strat}`);
 
-        if (!data[strat] || !container) return;
+        if (!topBody || !data[strat]) return;
 
-        topTbody.innerHTML = data[strat].top_10.map((s, i) => `
+        topBody.innerHTML = data[strat].top_10.map((s, i) => `
             <tr>
                 <td>#${i + 1}</td>
                 <td class="row-score">${s.score}</td>
-                <td class="row-name">${s.name || 'Anonymous'}</td>
+                <td class="row-name">${s.name || 'Anon'}</td>
             </tr>
         `).join('');
 
-        // Fill Bottom 10 (Hall of Shame)
-        if (botTbody) {
-            botTbody.innerHTML = data[strat].bot_10.map((s, i) => `
+        if (botBody && data[strat].bot_10) {
+            botBody.innerHTML = data[strat].bot_10.map((s, i) => `
                 <tr>
                     <td style="color: var(--muted-color)">#${i + 1}</td>
                     <td class="row-score">${s.score}</td>
-                    <td class="row-name">${s.name || 'Anonymous'}</td>
+                    <td class="row-name">${s.name || 'Anon'}</td>
                 </tr>
             `).join('');
         }
@@ -153,6 +149,5 @@ function displayTopLeaderboard(data) {
         container.style.display = 'flex';
     });
 }
-
 renderCards();
 getGlobalScores();
