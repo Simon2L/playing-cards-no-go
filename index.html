@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patiens</title>
-    <script type="module" src="js/main.js?v=1.0.7"></script>
-    <link rel="stylesheet" href="style.css?v=1.0.7">
+    <script type="module" src="js/main.js?v=1.0.8"></script>
+    <link rel="stylesheet" href="style.css?v=1.0.8">
 </head>
 <body>
     <div class="stats-bar">
@@ -21,10 +21,10 @@
 
     <div id="table" class="container"></div>
 
-    <div class="container">
-        <div id="leaderboard-max" class="stats-bar" style="display: none; flex-direction:column; margin-top: 20px;">
+    <div class="container" style="margin-top: 20px;">
+        <div id="leaderboard-max" class="stats-bar" style="display: none; flex-direction:column;">
             <span class="stat-label" style="margin-bottom: 10px;">Global Top 10 - Max</span>
-            <table id="leaderboard-table-max">
+            <table class="leaderboard-table" id="leaderboard-table-max">
                 <thead>
                     <tr><th>Rank</th><th>Score</th><th>Name</th></tr>
                 </thead>
@@ -32,14 +32,14 @@
             </table>
     
             <span class="stat-label" style="margin-top: 20px; margin-bottom: 10px; color: #ff4444;">Bottom 10 - Max</span>
-            <table id="leaderboard-bottom-table-max">
+            <table class="leaderboard-table" id="leaderboard-bottom-table-max">
                 <tbody id="leaderboard-bottom-body-max"></tbody>
             </table>
         </div>
 
-        <div id="leaderboard-jorgen" class="stats-bar" style="display: none; flex-direction:column; margin-top: 20px;">
+        <div id="leaderboard-jorgen" class="stats-bar" style="display: none; flex-direction:column;">
             <span class="stat-label" style="margin-bottom: 10px;">Global Top 10 - Jorgen</span>
-            <table id="leaderboard-table-jorgen">
+            <table class="leaderboard-table" id="leaderboard-table-jorgen">
                 <thead>
                     <tr><th>Rank</th><th>Score</th><th>Name</th></tr>
                 </thead>
@@ -47,14 +47,14 @@
             </table>
     
             <span class="stat-label" style="margin-top: 20px; margin-bottom: 10px; color: #ff4444;">Bottom 10 - Jorgen</span>
-            <table id="leaderboard-bottom-table-jorgen">
+            <table class="leaderboard-table" id="leaderboard-bottom-table-jorgen">
                 <tbody id="leaderboard-bottom-body-jorgen"></tbody>
             </table>
         </div>
         
-        <div id="leaderboard-imon" class="stats-bar" style="display: none; flex-direction:column; margin-top: 20px;">
+        <div id="leaderboard-imon" class="stats-bar" style="display: none; flex-direction:column;">
             <span class="stat-label" style="margin-bottom: 10px;">Global Top 10 - imon</span>
-            <table id="leaderboard-table-imon">
+            <table class="leaderboard-table" id="leaderboard-table-imon">
                 <thead>
                     <tr><th>Rank</th><th>Score</th><th>Name</th></tr>
                 </thead>
@@ -62,7 +62,7 @@
             </table>
     
             <span class="stat-label" style="margin-top: 20px; margin-bottom: 10px; color: #ff4444;">Bottom 10 - imon</span>
-            <table id="leaderboard-bottom-table-imon">
+            <table class="leaderboard-table" id="leaderboard-bottom-table-imon">
                 <tbody id="leaderboard-bottom-body-imon"></tbody>
             </table>
         </div>

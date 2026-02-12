@@ -131,16 +131,16 @@ function displayTopLeaderboard(data) {
             <tr>
                 <td>#${i + 1}</td>
                 <td class="row-score">${s.score}</td>
-                <td class="row-name">${s.name || 'Anon'}</td>
+                <td class="row-name">${s.name || 'clanka'}</td>
             </tr>
         `).join('');
 
         if (botBody && data[strat].bot_10) {
-            botBody.innerHTML = data[strat].bot_10.map((s, i) => `
+            botBody.innerHTML = data[strat].bot_10.reverse().map((s, i) => `
                 <tr>
                     <td style="color: var(--muted-color)">#${i + 1}</td>
                     <td class="row-score">${s.score}</td>
-                    <td class="row-name">${s.name || 'Anon'}</td>
+                    <td class="row-name">${s.name || 'clanka'}</td>
                 </tr>
             `).join('');
         }
