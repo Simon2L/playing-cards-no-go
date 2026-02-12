@@ -1,4 +1,4 @@
-import { PatienceGame } from './Game.js';
+import { PatienceGame } from './GameF.js';
 
 const table = document.getElementById("table");
 const strategyButtons = document.querySelectorAll('.strat-btn');
