@@ -1,5 +1,6 @@
 import { PatienceGame } from './Game.js';
 
+// dd
 const table = document.getElementById("table");
 const strategyButtons = document.querySelectorAll('.strat-btn');
 
