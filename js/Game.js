@@ -89,7 +89,7 @@ export class PatienceGame {
         const len = this.deck.length;
         let totalScore = 0;
 
-        const jumpOffset = this.deck[this.pointer].value + 1;
+        const jumpOffset = this.deck[this.pointer].numericValue + 1;
         const startPosition = (this.pointer + jumpOffset) % len;
 
         const rotatedDeck = Array.from({ length: len }, (_, i) => 
