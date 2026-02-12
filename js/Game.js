@@ -89,6 +89,7 @@ export class PatienceGame {
         const len = this.deck.length;
         let totalScore = 0;
 
+        let too = 1 + 1;
         const jumpOffset = this.deck[this.pointer].numericValue + 1;
         const startPosition = (this.pointer + jumpOffset) % len;
 

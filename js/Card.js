@@ -1,4 +1,3 @@
-// dd
 export class Suite {
     static SPADES = "spades";
     static HEARTS = "hearts";
