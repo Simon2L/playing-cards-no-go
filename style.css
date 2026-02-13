@@ -179,64 +179,68 @@ body {
    ========================================================================== */
 
 /* This allows the leaderboard to expand */
+/* ==========================================================================
+   6. TABLES / LEADERBOARD (REFINED)
+   ========================================================================== */
+
+/* The wrapper for each leaderboard */
 #leaderboard-max, 
 #leaderboard-jorgen, 
 #leaderboard-imon {
-    max-width: 600px;
-    width: 100%; 
-    padding: 20px;
+    /* Allow tables to sit side-by-side on desktop */
+    flex: 1 1 300px; 
+    max-width: 450px; /* Prevents them from getting too huge on ultra-wide screens */
+    width: 100%;      
+    padding: 24px;    
+    box-sizing: border-box;
+    align-self: flex-start; /* Prevents tables from stretching vertically if one is longer */
+}
+
+/* Header Text (Global Top 10...) */
+#leaderboard-max .stat-label,
+#leaderboard-jorgen .stat-label,
+#leaderboard-imon .stat-label {
+    font-size: 1rem;       /* Larger to distinguish sections */
+    color: var(--accent-color);
+    letter-spacing: 0.1rem;
+    margin-bottom: 16px;
+    border-left: 3px solid var(--action-color);
+    padding-left: 10px;    /* Adds a little "tag" look to the header */
 }
 
 .leaderboard-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.9rem;
-    margin-top: 10px;
+    font-size: 0.85rem;
+}
+
+/* Column Alignment */
+.leaderboard-table th, 
+.leaderboard-table td {
+    text-align: left;      /* Kept left-aligned as requested */
+    padding: 10px 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .leaderboard-table th {
-    text-align: left;
     color: var(--muted-color);
-    font-weight: 600;
+    font-size: 0.65rem;
     text-transform: uppercase;
-    font-size: 0.7rem;
-    letter-spacing: 0.05rem;
-    padding: 12px 8px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.leaderboard-table td {
-    padding: 12px 8px; 
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    font-variant-numeric: tabular-nums;
-}
-
-
-.leaderboard-table th:last-child,
-.leaderboard-table td:last-child {
-    text-align: right;
-}
-
+/* Row Styling */
 .row-name {
     color: var(--accent-color);
-    font-size: 0.9rem;
-    display: inline-block;
-    max-width: 150px;
+    max-width: 120px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
 .row-score {
-    font-weight: 600;
-    color: var(--accent-color);
-}
-
-
-/* Specific overrides */
-.stats-bar .stat-label[style*="color: #ff4444"] {
-    opacity: 0.8;
-    font-size: 0.6rem;
+    color: var(--action-color); /* Highlight the score slightly */
+    font-weight: 700;
 }
 
 /* ==========================================================================
