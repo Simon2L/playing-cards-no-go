@@ -199,17 +199,12 @@ body {
     background: rgba(20, 20, 20, 0.6);
 }
 
-/* The Main Section Header */
 .stat-label {
-    display: block;
-    background: rgba(255, 255, 255, 0.03);
-    padding: 16px;
-    font-size: 1.1rem !important; /* Slightly larger */
-    font-weight: 800;
-    color: var(--accent-color);
+    font-size: 1rem;
     text-transform: uppercase;
-    letter-spacing: 2px;
-    border-bottom: 2px solid var(--action-color); /* The signature "Minion" stripe */
+    letter-spacing: 0.05rem;
+    color: var(--accent-color);
+    font-weight: 600;
 }
 
 .leaderboard-table {
