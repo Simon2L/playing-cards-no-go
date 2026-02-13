@@ -183,63 +183,92 @@ body {
    6. TABLES / LEADERBOARD (REFINED)
    ========================================================================== */
 
-/* The wrapper for each leaderboard */
+/* ==========================================================================
+   6. TABLES / LEADERBOARD (MINION POLISH)
+   ========================================================================== */
+
 #leaderboard-max, 
 #leaderboard-jorgen, 
 #leaderboard-imon {
-    /* Allow tables to sit side-by-side on desktop */
-    flex: 1 1 300px; 
-    max-width: 450px; /* Prevents them from getting too huge on ultra-wide screens */
+    flex: 1 1 320px; 
+    max-width: 480px; 
     width: 100%;      
-    padding: 24px;    
-    box-sizing: border-box;
-    align-self: flex-start; /* Prevents tables from stretching vertically if one is longer */
+    padding: 0; /* Removed padding to let header go edge-to-edge */
+    overflow: hidden; /* Clips the table corners to the border-radius */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(20, 20, 20, 0.6);
 }
 
-/* Header Text (Global Top 10...) */
-#leaderboard-max .stat-label,
-#leaderboard-jorgen .stat-label,
-#leaderboard-imon .stat-label {
-    font-size: 1rem;
+/* The Main Section Header */
+.stat-label {
+    display: block;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 16px;
+    font-size: 1.1rem !important; /* Slightly larger */
+    font-weight: 800;
     color: var(--accent-color);
-    letter-spacing: 0.1rem;
-    margin-bottom: 16px;
-    border-left: 3px solid var(--action-color);
-    padding-left: 10px; 
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-bottom: 2px solid var(--action-color); /* The signature "Minion" stripe */
 }
 
 .leaderboard-table {
-    font-size: 1rem;
     width: 100%;
     border-collapse: collapse;
+    font-size: 0.95rem;
 }
 
-.leaderboard-table th, 
-.leaderboard-table td {
-    font-size: 1rem;
-    text-align: left; 
-    padding: 10px 8px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
+/* Table Header Row */
 .leaderboard-table th {
-    color: var(--accent-color);
+    background: rgba(0, 0, 0, 0.2);
+    color: var(--muted-color);
+    font-size: 0.75rem;
+    font-weight: 700;
     text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 12px 16px;
+    text-align: left;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Row Styling */
-.row-name {
+/* Table Data Cells */
+.leaderboard-table td {
+    padding: 14px 16px;
     color: var(--accent-color);
-    max-width: 120px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+/* Zebra Striping for better readability */
+.leaderboard-table tbody tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+/* Row hover effect (The "Minion" touch) */
+.leaderboard-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transition: background 0.2s ease;
+}
+
+/* Specific Cell Styling */
+.row-name {
+    font-weight: 500;
+    max-width: 150px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
 .row-score {
-    color: var(--action-color);
+    font-family: 'JetBrains Mono', 'Courier New', monospace; /* Professional look */
+    font-weight: 400;
+    opacity: 0.9;
+}
+
+/* Rank column (First column) styling */
+.leaderboard-table td:first-child {
+    color: var(--muted-color);
     font-weight: 700;
+    width: 40px;
 }
 
 /* ==========================================================================
