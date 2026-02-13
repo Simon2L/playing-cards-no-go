@@ -200,31 +200,30 @@ body {
 #leaderboard-max .stat-label,
 #leaderboard-jorgen .stat-label,
 #leaderboard-imon .stat-label {
-    font-size: 1rem;       /* Larger to distinguish sections */
+    font-size: 1rem;
     color: var(--accent-color);
     letter-spacing: 0.1rem;
     margin-bottom: 16px;
     border-left: 3px solid var(--action-color);
-    padding-left: 10px;    /* Adds a little "tag" look to the header */
+    padding-left: 10px; 
 }
 
 .leaderboard-table {
+    font-size: 1rem;
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.85rem;
 }
 
-/* Column Alignment */
 .leaderboard-table th, 
 .leaderboard-table td {
-    text-align: left;      /* Kept left-aligned as requested */
+    font-size: 1rem;
+    text-align: left; 
     padding: 10px 8px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .leaderboard-table th {
-    color: var(--muted-color);
-    font-size: 0.65rem;
+    color: var(--accent-color);
     text-transform: uppercase;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -239,7 +238,7 @@ body {
 }
 
 .row-score {
-    color: var(--action-color); /* Highlight the score slightly */
+    color: var(--action-color);
     font-weight: 700;
 }
 
