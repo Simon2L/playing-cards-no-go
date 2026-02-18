@@ -6,12 +6,14 @@ const cheat = document.getElementById("cheat");
 
 const game = new PatienceGame();
 
-cheat.addEventListener("click", () => {
-    table.replaceChildren();
-    game.reset();
-    game.cheat();
-    renderCards();
-})
+if (cheat) {
+    cheat.addEventListener("click", () => {
+        table.replaceChildren();
+        game.reset();
+        game.cheat();
+        renderCards();
+    })
+}
 strategyButtons.forEach(btn => {
     btn.addEventListener('click', () => {
         strategyButtons.forEach(b => b.classList.remove('active'));
