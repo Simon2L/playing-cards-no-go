@@ -2,9 +2,16 @@ import { PatienceGame } from './GameF.js';
 
 const table = document.getElementById("table");
 const strategyButtons = document.querySelectorAll('.strat-btn');
+const cheat = document.getElementById("cheat");
 
 const game = new PatienceGame();
 
+cheat.addEventListener("click", () => {
+    table.replaceChildren();
+    game.reset();
+    game.cheat();
+    renderCards();
+})
 strategyButtons.forEach(btn => {
     btn.addEventListener('click', () => {
         strategyButtons.forEach(b => b.classList.remove('active'));
