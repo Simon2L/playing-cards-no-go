@@ -21,12 +21,14 @@ STRATEGY_FILES = {
 
 class ScoreHandler(http.server.SimpleHTTPRequestHandler):
     def log_message(self, format, *args):
-        logging.info("%s - %s", self.client_address[0], format % args)
-
-    def log_request_details(self):
-        logging.info("Client: %s", self.client_address[0])
-        logging.info("Method: %s Path: %s", self.command, self.path)
-        logging.info("Headers:\n%s", self.headers)
+        logging.info(
+            "%s | %s %s | %s | UA: %s",
+            self.client_address[0],           # IP
+            self.command,                     # GET/POST
+            self.path,                        # Path
+            args[1],                          # Status code
+            self.headers.get("User-Agent", "-")
+        )
 
     def get_file_for_strategy(self, strategy):  
         return STRATEGY_FILES.get(strategy, 'scores.json')
