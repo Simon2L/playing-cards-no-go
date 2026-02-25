@@ -13,10 +13,6 @@ STRATEGY_FILES = {
 class ScoreHandler(http.server.SimpleHTTPRequestHandler):
     def get_file_for_strategy(self, strategy):
         return STRATEGY_FILES.get(strategy, 'scores.json')
-    
-    def is_forbidden_path(self, path):
-        forbidden = ['.git', '.env', '..', '~', '.ssh']
-        return any(x in path for x in forbidden)
 
     def load_scores(self, filename):
         if os.path.exists(filename):
@@ -60,9 +56,6 @@ class ScoreHandler(http.server.SimpleHTTPRequestHandler):
             self.wfile.write(json.dumps(all_leaderboards).encode('utf-8'))
     
     def do_GET(self):
-        if self.is_forbidden_path(self.path):
-            self.send_error(403, "Forbidden")
-            return
         if self.path == '/get-score':
             all_leaderboards = {}
 
