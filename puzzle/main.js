@@ -183,9 +183,9 @@ function assert(condition, message) {
 const popup = document.getElementById("solved-popup");
 const closeBtn = document.getElementById("solved-close-btn");
 
-closeBtn.addEventListener("click", () => {
-    popup.classList.remove("show");
-});
+// closeBtn.addEventListener("click", () => {
+//     popup.classList.remove("show");
+// });
 
 function solvedHandler() {
     popup.classList.add("show");
