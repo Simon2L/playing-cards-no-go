@@ -1,6 +1,15 @@
 import http.server
 import json
 import os
+import logging
+from logging.handlers import RotatingFileHandler
+
+handler = RotatingFileHandler("server.log", maxBytes=5_000_000, backupCount=3)
+logging.basicConfig(
+    handlers=[handler],
+    level=logging.INFO,
+    format="%(asctime)s | %(levelname)s | %(message)s",
+)
 
 PORT = 5000
 
@@ -11,7 +20,15 @@ STRATEGY_FILES = {
 }
 
 class ScoreHandler(http.server.SimpleHTTPRequestHandler):
-    def get_file_for_strategy(self, strategy):
+    def log_message(self, format, *args):
+        logging.info("%s - %s", self.client_address[0], format % args)
+
+    def log_request_details(self):
+        logging.info("Client: %s", self.client_address[0])
+        logging.info("Method: %s Path: %s", self.command, self.path)
+        logging.info("Headers:\n%s", self.headers)
+
+    def get_file_for_strategy(self, strategy):  
         return STRATEGY_FILES.get(strategy, 'scores.json')
 
     def load_scores(self, filename):
@@ -31,6 +48,7 @@ class ScoreHandler(http.server.SimpleHTTPRequestHandler):
         }
 
     def do_POST(self):
+        self.log_request_details()
         if self.path == '/save-score':
             content_length = int(self.headers['Content-Length'])
             post_data = self.rfile.read(content_length)
@@ -56,6 +74,7 @@ class ScoreHandler(http.server.SimpleHTTPRequestHandler):
             self.wfile.write(json.dumps(all_leaderboards).encode('utf-8'))
     
     def do_GET(self):
+        self.log_request_details()
         if self.path == '/get-score':
             all_leaderboards = {}
 
