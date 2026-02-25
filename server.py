@@ -50,9 +50,8 @@ class ScoreHandler(http.server.SimpleHTTPRequestHandler):
         }
 
     def do_POST(self):
-        self.log_request_details()
         if self.path == '/save-score':
-            content_length = int(self.headers['Content-Length'])
+            content_length = int(self.headers.get('Content-Length', 0))
             post_data = self.rfile.read(content_length)
             new_score = json.loads(post_data.decode('utf-8'))
             
@@ -76,7 +75,6 @@ class ScoreHandler(http.server.SimpleHTTPRequestHandler):
             self.wfile.write(json.dumps(all_leaderboards).encode('utf-8'))
     
     def do_GET(self):
-        self.log_request_details()
         if self.path == '/get-score':
             all_leaderboards = {}
 
