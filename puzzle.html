@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Puzzle</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="stats-bar">
+        <div class="stat-item" style="flex-direction: row; gap: 16px; align-items: center;">
+            <span class="stat-label">Game:</span>
+            <div class="strategy-picker">
+                <a href="index.html" class="strat-btn" style="text-decoration: none;">Patiens</a>
+                <a href="puzzle.html" class="strat-btn active" style="text-decoration: none;">Puzzle</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="puzzle-container">
+        <h1 class="stat-label">Puzzle</h1>
+        <div class="board">
+            <div class="row">
+                <div id="zone1" class="zone"></div>
+                <div id="zone2" class="zone"></div>
+                <div id="zone3" class="zone"></div>
+            </div>
+            <div class="row middle">
+                <div id="zone4" class="zone"></div>
+                <div id="zone5" class="zone"></div>
+            </div>
+            <div class="row">
+                <div id="zone6" class="zone"></div>
+                <div id="zone7" class="zone"></div>
+                <div id="zone8" class="zone"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="popup" id="solved-popup">
+        <div class="modal-content">
+            <button id="solved-close-btn" class="x-btn">✕</button>
+            <h2 class="stat-label" style="font-size: 1.5rem; color: #fff;">Solved!</h2>
+            <div class="modal-stats">
+                <p>Excellent work, Master of Logic.</p>
+            </div>
+            <button onclick="location.reload()" class="primary-btn">Play Again</button>
+        </div>
+    </div>
+
+    <script src="puzzle/classes.js"></script>
+    <script src="puzzle/main.js"></script>
+    <script src="puzzle/puzzle.js"></script>
+</body>
+</html>

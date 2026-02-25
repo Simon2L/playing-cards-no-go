@@ -4,17 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patiens</title>
-    <script type="module" src="js/main.js?v=1.2.1"></script>
+    <script type="module" src="card/main.js?v=1.2.1"></script>
     <link rel="stylesheet" href="style.css?v=1.2.1">
 </head>
 <body>
     <div class="stats-bar">
         <div class="stat-item" style="flex-direction: row; gap: 8px; align-items: center;">
-            <span class="stat-label" style="margin-right: 8px;">Mode:</span>
+            <span class="stat-label">Mode:</span>
             <div class="strategy-picker">
                 <button class="strat-btn active" data-strategy="max">MAX</button>
                 <!-- <button class="strat-btn" data-strategy="imon">IMON</button> -->
                 <button class="strat-btn" data-strategy="jorgen">NORMAL</button>
+            </div>
+            <span class="stat-label" style="margin-left: 8px;">Game:</span>
+            <div class="strategy-picker">
+                <a href="index.html" class="strat-btn2 active" style="text-decoration: none;">Patiens</a>
+                <a href="puzzle.html" class="strat-btn2" style="text-decoration: none;">Puzzle</a>
             </div>
         </div>
     </div>
